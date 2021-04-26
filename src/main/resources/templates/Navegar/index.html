@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+var x=$(document);
+x.ready(dom);
+
+function dom(){
+
+$("#Dolarreal").change(dolarR)
+
+$("#Realdolar").change(realD)
+
+
+function dolarR(){
+var dolar =this.value;
+dolar=Number(dolar);
+
+if(isNaN(dolar)){
+    $("#ResultadoDolar").html('INVÁLIDO')
+}else{
+    $("#ResultadoDolar").html('ATUALIZANDO..........')
+
+var ajax =$.ajax({
+url: "/dolarReal",
+dataType: "html" ,
+timeout:'10000'
+}).done(function (data){
+    data=data.replace('<tr>','')
+    data=data.replace('</tr>','')  
+    data=data.replace('<td>','') 
+    data=data.replace('</td>','')      
+    var resultado=data*dolar;  
+    resultado=resultado.toFixed(2)
+    $("#ResultadoDolar").html('SEU VALOR EM REAL R$'+resultado)
+
+}).fail(function (jqXHR,texStatus){
+    $("#ResultadoDolar").html('Tente Novamente')
+})
+}
+
+}
+
+
+function realD(){
+var real =this.value;
+real=Number(real);
+if(isNaN(real)){
+    $("#ResultadoReal").html('INVÁLIDO')
+}else{
+    $("#ResultadoReal").html('ATUALIZANDO..........')
+var ajax =$.ajax({
+url: "/realDolar",
+dataType: "html" ,
+timeout:'10000'
+}).done(function (data){
+    data=data.replace('<tr>','')
+    data=data.replace('</tr>','')  
+    data=data.replace('<td>','') 
+    data=data.replace('</td>','')      
+    var resultado=data*real;
+    resultado=resultado.toFixed(2)  
+    $("#ResultadoReal").html('SEU VALOR EM DOLAR US$'+resultado)
+
+}).fail(function (jqXHR,texStatus){
+    
+    $("#ResultadoReal").html('Tente Novamente')
+})
+}
+
+}
+
+
+}
+
+</script>
+
+
+
+
+</head>
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <head>
+            <title>CONVERSOR</title>
+
+        </head>
+
+     <body>
+
+
+        <div class="m-auto flex container bg-black text-white">
+        <h1 class="m-auto text-xl mt-10">CONVERSOR DE VALORES</h1>
+        </div>
+
+        <div class="m-auto p-4 w-96">
+            <center>
+            <h1 class="m-auto text-xl text-yellow-700 mt-5">R$--->US$</h1>
+            <input class="m-auto border p-2" id="Realdolar"  placeholder="DIGITE O VALOR">
+                <h1>
+                    <span class="text-black" c id="ResultadoReal"></span>
+                </h1>
+            </center>
+        </div>
+
+        <div class="m-auto p-4 w-96">
+            
+            <center>
+          <h1 class="text-xl text-yellow-700 mt-5">US$--->R$</h1>
+            <input class="m-auto border p-2" id="Dolarreal" placeholder="DIGITE O VALOR" >
+                <h1>
+                    <span class="text-black" id="ResultadoDolar"></span>
+                </h1>
+            </center>
+
+        </div>
+
+     </body>
+</html>
